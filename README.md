@@ -41,7 +41,7 @@ poetry install
 poetry shell
 ```
 
-### Custom logging Handler 
+### Custom logging Handler
 
 The `lognostic` module can be integrated into logging subsystems by employing a custom logging handler:
 
@@ -79,7 +79,7 @@ docker run --name lognostic_instance lognostic
 The docker builds the envioronment followed by running the pre-commits and unit tests.
 ### Documentation
 
-The documentation is automatically generated from the content of the [docs directory](./docs) and from the docstrings of the public signatures of the source code. 
+The documentation is automatically generated from the content of the [docs directory](./docs) and from the docstrings of the public signatures of the source code.
 
 ### Releasing
 
