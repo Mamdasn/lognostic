@@ -1,20 +1,22 @@
 import logging
 import unittest
-import pandas as pd
-from threading import Thread
 from datetime import datetime
+from threading import Thread
+from unittest.mock import Mock, patch
+
+import pandas as pd
+
 from lognostic import Lognostic
-from unittest.mock import patch
 
 
 class TestLognostic(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Create a Lognostic instance before each test."""
         self.lognostic = Lognostic()
 
     @patch("pandas.Timestamp.now")
-    def test_record(self, now_mock):
+    def test_record(self, now_mock: Mock) -> None:
         """Test that log records are correctly recorded."""
         now_mock.return_value = pd.Timestamp(datetime(2024, 3, 6, 12))
         log_record = logging.LogRecord(
@@ -32,7 +34,7 @@ class TestLognostic(unittest.TestCase):
             pd.Timestamp(datetime(2024, 3, 6, 12)),
         )
 
-    def test_total_size(self):
+    def test_total_size(self) -> None:
         """Test calculation of the total size of logged messages."""
         self.lognostic._records = [
             {
@@ -48,7 +50,7 @@ class TestLognostic(unittest.TestCase):
         ]
         self.assertEqual(self.lognostic.total_size(), 30)
 
-    def test_total_size_per_logger(self):
+    def test_total_size_per_logger(self) -> None:
         """Test calculation of the total size of logged messages per logger."""
         self.lognostic._records = [
             {
@@ -71,7 +73,7 @@ class TestLognostic(unittest.TestCase):
         self.assertEqual(self.lognostic.total_size_per_logger(), expected)
 
     @patch("pandas.Timestamp.now")
-    def test_total_logging_rate(self, now_mock):
+    def test_total_logging_rate(self, now_mock: Mock) -> None:
         """Test calculation of the total logging rate over a specified period."""
         now_mock.return_value = pd.Timestamp(datetime(2024, 3, 6, 12))
         self.lognostic._records = [
@@ -81,12 +83,10 @@ class TestLognostic(unittest.TestCase):
                 "timestamp": pd.Timestamp(datetime(2024, 3, 6, 12)),
             },
         ]
-        self.assertAlmostEqual(
-            self.lognostic.total_logging_rate(lookback_period=1), 60
-        )
+        self.assertAlmostEqual(self.lognostic.total_logging_rate(lookback_period=1), 60)
 
     @patch("pandas.Timestamp.now")
-    def test_logging_rate_per_logger(self, now_mock):
+    def test_logging_rate_per_logger(self, now_mock: Mock) -> None:
         """Test calculation of the logging rate per logger over a specified period."""
         now_mock.return_value = pd.Timestamp(datetime(2024, 3, 6, 12))
         self.lognostic._records = [
@@ -106,21 +106,27 @@ class TestLognostic(unittest.TestCase):
             self.lognostic.logging_rate_per_logger(lookback_period=60), expected
         )
 
-    def test_thread_safety(self):
+    def test_thread_safety(self) -> None:
         """Test that the Lognostic record method is thread-safe."""
-        logger = logging.getLogger("TestLogger")
+        logging.getLogger("TestLogger")
         log_record1 = logging.LogRecord(
             "logger-1", logging.INFO, "", 0, "test message 1", args=(), exc_info=None
         )
         log_record2 = logging.LogRecord(
-            "logger-2", logging.INFO, "", 0, "test message 2", args=(), exc_info=None,
+            "logger-2",
+            logging.INFO,
+            "",
+            0,
+            "test message 2",
+            args=(),
+            exc_info=None,
         )
 
-        def target1():
+        def target1() -> None:
             for _ in range(50):
                 self.lognostic.record(log_record1)
 
-        def target2():
+        def target2() -> None:
             for _ in range(50):
                 self.lognostic.record(log_record2)
 

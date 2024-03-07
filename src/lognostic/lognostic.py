@@ -1,7 +1,8 @@
 import logging
-import pandas as pd
 from threading import Lock
-from typing import List, Dict
+from typing import Dict, List, cast
+
+import pandas as pd
 
 
 class Lognostic:
@@ -74,7 +75,8 @@ class Lognostic:
             int: The total size of all messages.
         """
         df = self._dataframe()
-        return df["message_size"].sum()
+        total_size = df["message_size"].sum()
+        return cast(int, total_size)
 
     def total_size_per_logger(self) -> Dict[str, int]:
         """
@@ -97,7 +99,8 @@ class Lognostic:
             float: The average logging rate (message size per second).
         """
         recent_records = self._get_recent_records(lookback_period)
-        return recent_records["message_size"].sum() / lookback_period
+        total_rate = recent_records["message_size"].sum() / lookback_period
+        return cast(float, total_rate)
 
     def logging_rate_per_logger(self, lookback_period: int = 60) -> Dict[str, float]:
         """
