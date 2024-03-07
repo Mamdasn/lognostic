@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lognostic"
-version = "0.0.1"
+version = "0.0.2"
 description = "lognostic is a lightweight, efficient Python package designed to seamlessly integrate into existing Python applications to provide comprehensive logging statistics. ThiThis package caters to development teams seeking to optimize logging performance, diagnose issues, and understand logging loads without introducing significant overhead or complexity into their applications."
 authors = [
     "Mamdasan Sabrian <reach.s.farhad@gmail.com>",
