@@ -1,6 +1,6 @@
 import logging
 from threading import Lock
-from typing import Dict, List, cast, Union
+from typing import Dict, List, Union, cast
 
 import pandas as pd
 
