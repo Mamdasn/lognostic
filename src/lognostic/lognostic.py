@@ -1,6 +1,6 @@
 import logging
 from threading import Lock
-from typing import Dict, List, cast
+from typing import Dict, List, cast, Union
 
 import pandas as pd
 
@@ -21,7 +21,7 @@ class Lognostic:
         Initializes the Lognostic class by setting up the threading lock and initializing the list of records.
         """
         self._lock: Lock = Lock()
-        self._records: List[Dict[str, pd.Timestamp | str | int]] = []
+        self._records: List[Dict[str, Union[pd.Timestamp, str, int]]] = []
 
     def record(self, log_record: logging.LogRecord) -> None:
         """
