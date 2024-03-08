@@ -15,7 +15,7 @@
 
 ---
 
-lognostic is a lightweight, efficient Python package designed to seamlessly integrate into existing Python applications to provide comprehensive logging statistics. ThiThis package caters to development teams seeking to optimize logging performance, diagnose issues, and understand logging loads without introducing significant overhead or complexity into their applications.
+`lognostic` is a lightweight, efficient Python package designed to seamlessly integrate into existing Python applications to provide logging statistics. This package caters to development teams seeking to optimize logging performance, diagnose issues, and understand logging loads without introducing significant overhead or complexity into their applications.
 
 ## Installation
 
@@ -46,10 +46,6 @@ poetry shell
 The `lognostic` module can be integrated into logging subsystems by employing a custom logging handler:
 
 ```python
-import logging
-from lognostic import Lognostic
-
-
 class LogHandler(logging.Handler):
     def __init__(self, lognostic: Lognostic):
         super().__init__()
@@ -59,12 +55,31 @@ class LogHandler(logging.Handler):
         self._lognostic.record(log_record)
 ```
 
+A `Lognostic` instance should be given to the custom logging handler, so later logging statistics can be obtained:
+
+```python
+lognostic = Lognostic()
+loghandler = LogHandler(lognostic)
+logger.addHandler(loghandler)
+
+logger.info('This is a test log message')
+
+lognostic.total_size() # -> returns 26
+```
+
+### Documentation
+
+The documentation is automatically generated from the content of the [docs directory](./docs) and from the docstrings found in the source code.
+
 
 ### Testing
-
+Run unit tests using
 ```sh
 pytest tests
 ```
+
+> **_Automated test runs_**: The `lognostic` package is automatically tested through python versions 3.9 to 3.12 using GitHub's CI/CD pipeline.  
+
 ### Docker Usage
 
 Build the image of the Dockerfile using
@@ -76,16 +91,7 @@ Run the image with
 docker run --name lognostic_instance lognostic
 ```
 
-The docker builds the envioronment followed by running the pre-commits and unit tests.
-### Documentation
-
-The documentation is automatically generated from the content of the [docs directory](./docs) and from the docstrings of the public signatures of the source code.
-
-### Releasing
-
-Trigger the [Draft release workflow](https://github.com/Mamdasn/lognostic/actions/workflows/draft_release.yml) (press _Run workflow_). This will update the changelog & version and create a GitHub release which is in _Draft_ state.
-
-Find the draft release from the [GitHub releases](https://github.com/Mamdasn/lognostic/releases) and publish it. When a release is published, it'll trigger [release](https://github.com/Mamdasn/lognostic/blob/master/.github/workflows/release.yml) workflow which creates PyPI release and deploys updated documentation.
+> The docker builds the envioronment followed by running the pre-commits and unit tests.
 
 ### Pre-commit
 
