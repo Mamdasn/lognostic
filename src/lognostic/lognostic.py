@@ -51,7 +51,9 @@ class Lognostic:
             pd.DataFrame: A DataFrame containing all logging records.
         """
         with self._lock:
-            return pd.DataFrame(self._records)
+            return pd.DataFrame(
+                self._records, columns=["logger_name", "message_size", "timestamp"]
+            )
 
     def _get_recent_records(self, lookback_period: int) -> pd.DataFrame:
         """
