@@ -78,7 +78,7 @@ Run unit tests using
 pytest tests
 ```
 
-> **_Automated test runs_**: The `lognostic` package is automatically tested through python versions 3.9 to 3.12 using GitHub's CI/CD pipeline.  
+> **_Automated test runs_**: The `lognostic` package is automatically tested through python versions 3.9 to 3.12 using GitHub's CI/CD pipeline.
 
 ### Docker Usage
 
